@@ -1,5 +1,6 @@
 # polls.vews.cbv(class-based view)
 from django.shortcuts import get_object_or_404, render, redirect
+from django.utils import timezone
 from django.views import generic, View
 
 from ..models import Question, Choice
@@ -12,7 +13,7 @@ class IndexView(generic.ListView):
     ordering = ('-pub_date',)
 
     def get_queryset(self):
-        return super().get_queryset()[:5]
+        return super().get_queryset().filter(pub_date__lte=timezone.now())[:5]
 
 
 class DetailView(generic.DetailView):
